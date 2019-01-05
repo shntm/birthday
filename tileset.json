@@ -1,0 +1,14 @@
+{ "columns":1,
+ "image":"BrickTiles(1).png",
+ "imageheight":12,
+ "imagewidth":15,
+ "margin":0,
+ "name":"gametest2",
+ "spacing":0,
+ "tilecount":1,
+ "tiledversion":"1.2.1",
+ "tileheight":12,
+ "tilewidth":15,
+ "type":"tileset",
+ "version":1.2
+}
