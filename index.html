@@ -64,14 +64,37 @@
         right:0;
         top: 0;
         bottom: 0;
+        border: 10px solid #651212;
+        border-radius: 5px;
     }
     body{
-        background: #000
+        background: url('bg.png')
+    }
+    #right{
+        display:block;
+        position: absolute;
+        right:0px;
+    }
+    #left{
+        display:block;
+        position: absolute;
+        left:0px;
+        -webkit-transform: scaleX(-1);
+        transform: scaleX(-1);
+    }
+    #text{
+        display:flex;
+        justify-content: center;
+        transform: translateY(100px);
     }
     </style>
     
     <script src = "game.js"></script>
     <!-- <script>document.getElementsByTagName('canvas')[0].style.top = ((window.screen.availHeight*window.devicePixelRatio)- 1280)/2+"px";</script> -->
+    <img src="flip.png" height="200px" id="right">
+    <img src="flip.png" height="200px" id="left">
+    <div id="text"><img src="text.png" height="300px" id="text"></div>
+    
 
 </body>
 </html>

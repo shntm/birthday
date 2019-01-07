@@ -126,7 +126,7 @@ function create() {
 
     anim = this.anims.create(config);
     animBirthday = this.anims.create(configBirthday);
-    birthday = this.add.sprite(6075,300, 'birthday').setScale(1,1);
+    birthday = this.add.sprite(6085,300, 'birthday').setScale(1,1);
     birthday.anims.load('birthday');
     birthday.anims.play('birthday');
     // birthday.anims.pause();
