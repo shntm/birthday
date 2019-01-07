@@ -65,7 +65,7 @@
               {
                      "columns": 1,
                      "firstgid": 1,
-                     "image": "brick.png",
+                     "image": "../assets/brick.png",
                      "imageheight": 16,
                      "imagewidth": 16,
                      "margin": 0,

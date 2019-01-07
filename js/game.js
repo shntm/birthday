@@ -49,30 +49,30 @@ var currentTextIndex = 0;
 var textTimer;
 
 function preload() {
-    this.load.tilemapTiledJSON('map', 'map.json');
-    this.load.image('tiles', 'brick.png');
-    this.load.image('layer_1', 'layer_1.png');
-    this.load.image('layer_2', 'layer_2.png');
-    this.load.image('frame', 'frame.png');
-    this.load.image('photome', 'me.png');
-    this.load.image('photoprabhata', 'me.png');
-    this.load.image('photosai', 'me.png');
-    this.load.image('photodrushti', 'me.png');
-    this.load.image('photosateesh', 'me.png');
-    this.load.image('photoaashina', 'me.png');
-    this.load.image('photoshreya', 'me.png');
-    this.load.image('photoasudha', 'me.png');
-    this.load.spritesheet('birthday', 'birthday.png',{ frameWidth: 500, frameHeight: 527 });
-    this.load.spritesheet('me', 'prince.png',{ frameWidth: 32, frameHeight: 32 });
-    this.load.spritesheet('char', 'bae.png', { frameWidth: assetWidth, frameHeight: assetHeight });
-    this.load.spritesheet('prabhata', 'prabhata.png',{ frameWidth: 32, frameHeight: 32 });
-    this.load.spritesheet('sai', 'sai.png',{ frameWidth: 32, frameHeight: 32 });
-    this.load.spritesheet('drushti', 'drushti.png',{ frameWidth: 32, frameHeight: 32 });
-    this.load.spritesheet('aashina', 'aashina.png',{ frameWidth: 32, frameHeight: 32 });
-    this.load.spritesheet('sateesh', 'sateesh.png',{ frameWidth: 32, frameHeight: 32 });
-    this.load.spritesheet('sudha', 'sudha.png',{ frameWidth: 32, frameHeight: 32 });
-    this.load.spritesheet('shreya', 'shreya.png',{ frameWidth: 32, frameHeight: 32 });
-    this.load.spritesheet('buttons', 'buttons.png', { frameWidth: buttonWidth, frameHeight: buttonHeight });
+    this.load.tilemapTiledJSON('map', 'assets/map.json');
+    this.load.image('tiles', 'assets/brick.png');
+    this.load.image('layer_1', 'assets/layer_1.png');
+    this.load.image('layer_2', 'assets/layer_2.png');
+    this.load.image('frame', 'assets/frame.png');
+    this.load.image('photome', 'assets/me.png');
+    this.load.image('photoprabhata', 'assets/me.png');
+    this.load.image('photosai', 'assets/me.png');
+    this.load.image('photodrushti', 'assets/me.png');
+    this.load.image('photosateesh', 'assets/me.png');
+    this.load.image('photoaashina', 'assets/me.png');
+    this.load.image('photoshreya', 'assets/me.png');
+    this.load.image('photoasudha', 'assets/me.png');
+    this.load.spritesheet('birthday', 'assets/birthday.png',{ frameWidth: 500, frameHeight: 527 });
+    this.load.spritesheet('me', 'assets/prince.png',{ frameWidth: 32, frameHeight: 32 });
+    this.load.spritesheet('char', 'assets/bae.png', { frameWidth: assetWidth, frameHeight: assetHeight });
+    this.load.spritesheet('prabhata', 'assets/prabhata.png',{ frameWidth: 32, frameHeight: 32 });
+    this.load.spritesheet('sai', 'assets/sai.png',{ frameWidth: 32, frameHeight: 32 });
+    this.load.spritesheet('drushti', 'assets/drushti.png',{ frameWidth: 32, frameHeight: 32 });
+    this.load.spritesheet('aashina', 'assets/aashina.png',{ frameWidth: 32, frameHeight: 32 });
+    this.load.spritesheet('sateesh', 'assets/sateesh.png',{ frameWidth: 32, frameHeight: 32 });
+    this.load.spritesheet('sudha', 'assets/sudha.png',{ frameWidth: 32, frameHeight: 32 });
+    this.load.spritesheet('shreya', 'assets/shreya.png',{ frameWidth: 32, frameHeight: 32 });
+    this.load.spritesheet('buttons', 'assets/buttons.png', { frameWidth: buttonWidth, frameHeight: buttonHeight });
 }
 
 function create() {
