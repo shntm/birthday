@@ -17,15 +17,18 @@ var config = {
         }
     }
 };
+
+var mySpeech = "Shantam: Keep going on to see some familiar faces and some memories with them! Tap here to continue."
 var speechObject = {
-    "me" : "test",
+    "me" : mySpeech,
     "prabhata" : "test2",
     "sai" : "test3",
     "drushti" : "test4",
     "sateesh" : "test5",
     "aashina" : "test6",
     "shreya" : "test7",
-    "sudha" : "test8"
+    "sudha" : "test8",
+    "me2" : "Shantam: Happy birthday love!"
 }
 
 var memoryObject = {};
@@ -42,7 +45,6 @@ var isMovingForward = false;
 var scaleRatio = window.devicePixelRatio * 2;
 var isTalking = false;
 var talkingTo = "";
-var mySpeech = "Hi love! Keep going on to see some familiar faces! Tap here to continue."
 
 var textToSet = "";
 var currentTextIndex = 0;
@@ -149,7 +151,6 @@ function create() {
     frame.setInteractive();
     frame.on('pointerdown', function () {
         isTalking = false;
-        
         hideTextBox();
         hideMemory();
     });
@@ -287,6 +288,21 @@ function create() {
         memoryObject[talkingTo].body.velocity.y =  - 10;
     });
 
+    me2 = this.physics.add.sprite(5960,0, 'me').setScale(scaleRatio, scaleRatio);
+    me2.setBounce(0.2);
+    me2.setCollideWorldBounds(true);
+    this.physics.add.collider(groundLayer, me2);
+    this.physics.add.collider(groundLayer2, me2);
+    this.physics.add.collider(groundLayer3, me2);
+    this.physics.add.collider(groundLayer4, me2);
+    me2.setInteractive();
+    me2.on('pointerdown', function () {
+        currentTextIndex = 0;
+        isTalking = true;
+        talkingTo = "me2";
+        memoryObject[talkingTo].body.velocity.y =  - 10;
+    })
+
 
     memory = this.physics.add.sprite(this.cameras.main.width / 2, 1280-1100, 'photome').setScale(1.5);
     this.physics.add.collider(groundLayer, memory);
@@ -385,13 +401,13 @@ function update() {
     }
     if (isTalking) {
         var speechToShow = speechObject[talkingTo];
-        var memoryToShow = memoryObject[talkingTo]
+        var memoryToShow = memoryObject[talkingTo];
         if(currentTextIndex === 0){
             showTextBox(speechToShow)
         }
         if(!textTimer){
             textTimer = this.time.addEvent({
-                delay: 100,                // ms
+                delay: 50,                // ms
                 callback: showTextBox,
                 //args: [],
                 args: [ speechToShow],
@@ -400,9 +416,10 @@ function update() {
         }
         
         // showTextBox();
-        memoryToShow.body.velocity.y =  memoryToShow.body.velocity.y - 8.8;
-        showMemory(memoryToShow);
-
+        if(memoryToShow){
+            memoryToShow.body.velocity.y =  memoryToShow.body.velocity.y - 8.8;
+            showMemory(memoryToShow);
+        }
     }
     
 }
