@@ -17,7 +17,18 @@ var config = {
         }
     }
 };
+var speechObject = {
+    "me" : "test",
+    "prabhata" : "test2",
+    "sai" : "test3",
+    "drushti" : "test4",
+    "sateesh" : "test5",
+    "aashina" : "test6",
+    "shreya" : "test7",
+    "sudha" : "test8"
+}
 
+var memoryObject = {};
 var game = new Phaser.Game(config);
 var anim;
 var sprite;
@@ -29,15 +40,38 @@ var buttonWidth = 16;
 var buttonHeight = 16;
 var isMovingForward = false;
 var scaleRatio = window.devicePixelRatio * 2;
-var isTextBoxVisible = false;
-var textToSet = "Hi love! Keep going on to see some familiar faces!"
+var isTalking = false;
+var talkingTo = "";
+var mySpeech = "Hi love! Keep going on to see some familiar faces! Tap here to continue."
+
+var textToSet = "";
+var currentTextIndex = 0;
+var textTimer;
 
 function preload() {
     this.load.tilemapTiledJSON('map', 'map.json');
     this.load.image('tiles', 'brick.png');
+    this.load.image('layer_1', 'layer_1.png');
+    this.load.image('layer_2', 'layer_2.png');
     this.load.image('frame', 'frame.png');
+    this.load.image('photome', 'me.png');
+    this.load.image('photoprabhata', 'me.png');
+    this.load.image('photosai', 'me.png');
+    this.load.image('photodrushti', 'me.png');
+    this.load.image('photosateesh', 'me.png');
+    this.load.image('photoaashina', 'me.png');
+    this.load.image('photoshreya', 'me.png');
+    this.load.image('photoasudha', 'me.png');
+    this.load.spritesheet('birthday', 'birthday.png',{ frameWidth: 500, frameHeight: 527 });
     this.load.spritesheet('me', 'prince.png',{ frameWidth: 32, frameHeight: 32 });
-    this.load.spritesheet('char', 'girl.png', { frameWidth: assetWidth, frameHeight: assetHeight });
+    this.load.spritesheet('char', 'bae.png', { frameWidth: assetWidth, frameHeight: assetHeight });
+    this.load.spritesheet('prabhata', 'prabhata.png',{ frameWidth: 32, frameHeight: 32 });
+    this.load.spritesheet('sai', 'sai.png',{ frameWidth: 32, frameHeight: 32 });
+    this.load.spritesheet('drushti', 'drushti.png',{ frameWidth: 32, frameHeight: 32 });
+    this.load.spritesheet('aashina', 'aashina.png',{ frameWidth: 32, frameHeight: 32 });
+    this.load.spritesheet('sateesh', 'sateesh.png',{ frameWidth: 32, frameHeight: 32 });
+    this.load.spritesheet('sudha', 'sudha.png',{ frameWidth: 32, frameHeight: 32 });
+    this.load.spritesheet('shreya', 'shreya.png',{ frameWidth: 32, frameHeight: 32 });
     this.load.spritesheet('buttons', 'buttons.png', { frameWidth: buttonWidth, frameHeight: buttonHeight });
 }
 
@@ -45,7 +79,16 @@ function create() {
     //  Frame debug view
 
     // frameView = this.add.graphics({ fillStyle: { color: 0xff00ff }, x: 32, y: 32 });
+    // document.getElementsByTagName('canvas')[0].style.transform = "translateY(" + (1280-window.screen.availHeight)/2*window.devicePixelRatio + "px)"
+    sky = this.add.image(1280,600, 'layer_1').setScale(1);
+    sky1 = this.add.image(sky.width,600, 'layer_1').setScale(1);
+    sky2 = this.add.image(sky.width+sky1.width,600, 'layer_1').setScale(1);
+    sky3 = this.add.image(sky.width+sky1.width+sky2.width,600, 'layer_1').setScale(1);
 
+    bg = this.add.image(1280,760, 'layer_2').setScale(1);
+    bg1 = this.add.image(bg.width,760, 'layer_2').setScale(1);
+    bg2 = this.add.image(bg.width+bg1.width,760, 'layer_2').setScale(1);
+    bg3 = this.add.image(bg.width+bg1.width+bg2.width,760, 'layer_2').setScale(1);
     map = this.make.tilemap({ key: 'map' });
 
     // tiles for the ground layer
@@ -53,12 +96,18 @@ function create() {
     // create the ground layer
     groundLayer = map.createDynamicLayer('floor', groundTiles, 0, 1280 - 200).setScale(scaleRatio, scaleRatio);
     groundLayer2 = map.createDynamicLayer('floor2', groundTiles, groundLayer.width, 1280 - 200).setScale(scaleRatio, scaleRatio);
+    groundLayer3 = map.createDynamicLayer('floor3', groundTiles, groundLayer.width + groundLayer2.width, 1280 - 200).setScale(scaleRatio, scaleRatio);
+    groundLayer4 = map.createDynamicLayer('floor4', groundTiles, groundLayer.width + groundLayer2.width +groundLayer3.width , 1280 - 200).setScale(scaleRatio, scaleRatio);
     // the player will collide with this layer
     groundLayer.setCollisionByExclusion([-1]);
     groundLayer2.setCollisionByExclusion([-1]);
+    groundLayer3.setCollisionByExclusion([-1]);
+    groundLayer4.setCollisionByExclusion([-1]);
+
+    
 
     // set the boundaries of our game world
-    this.physics.world.bounds.width = groundLayer.width + groundLayer2.width;
+    this.physics.world.bounds.width = groundLayer.width + groundLayer2.width + groundLayer3.width + groundLayer4.width;
     var config = {
         key: 'walk',
         frames: this.anims.generateFrameNumbers('char'),
@@ -67,8 +116,20 @@ function create() {
         repeat: -1
     };
 
-    anim = this.anims.create(config);
+    var configBirthday = {
+        key: 'birthday',
+        frames: this.anims.generateFrameNumbers('birthday'),
+        frameRate: 6,
+        yoyo: false,
+        repeat: -1
+    };
 
+    anim = this.anims.create(config);
+    animBirthday = this.anims.create(configBirthday);
+    birthday = this.add.sprite(6075,300, 'birthday').setScale(1,1);
+    birthday.anims.load('birthday');
+    birthday.anims.play('birthday');
+    // birthday.anims.pause();
     console.log(anim);
 
     // layer = this.physics.add.sprite(200, 200, 'char'); 
@@ -87,7 +148,10 @@ function create() {
     frame.setScrollFactor(0);
     frame.setInteractive();
     frame.on('pointerdown', function () {
-        isTextBoxVisible = false;
+        isTalking = false;
+        
+        hideTextBox();
+        hideMemory();
     });
     text = this.add.text(20, 1280-180, "nauisdkfnkasd", { font: "11px Arial", fill: "#19de65", wordWrap: true, wordWrapWidth: 450 }).setScale(window.devicePixelRatio);
     text.setWordWrapWidth(200);
@@ -109,13 +173,194 @@ function create() {
     me.setCollideWorldBounds(true);
     this.physics.add.collider(groundLayer, me);
     this.physics.add.collider(groundLayer2, me);
+    this.physics.add.collider(groundLayer3, me);
+    this.physics.add.collider(groundLayer4, me);
     me.setInteractive();
     me.on('pointerdown', function () {
-        isTextBoxVisible = true;
+        currentTextIndex = 0;
+        isTalking = true;
+        talkingTo = "me";
+        memoryObject[talkingTo].body.velocity.y =  - 10;
     })
 
+    prabhata = this.physics.add.sprite(1280,0, 'prabhata').setScale(scaleRatio, scaleRatio);
+    prabhata.setBounce(0.2);
+    prabhata.setCollideWorldBounds(true);
+    this.physics.add.collider(groundLayer, prabhata);
+    this.physics.add.collider(groundLayer2, prabhata);
+    this.physics.add.collider(groundLayer3, prabhata);
+    this.physics.add.collider(groundLayer4, prabhata);
+    prabhata.setInteractive();
+    prabhata.on('pointerdown', function () {
+        isTalking = true;
+        talkingTo = "prabhata";
+        memoryObject[talkingTo].body.velocity.y =  - 10;
+    });
+
+    sai = this.physics.add.sprite(1920,0, 'sai').setScale(scaleRatio, scaleRatio);
+    sai.setBounce(0.2);
+    sai.setCollideWorldBounds(true);
+    this.physics.add.collider(groundLayer, sai);
+    this.physics.add.collider(groundLayer2, sai);
+    this.physics.add.collider(groundLayer3, sai);
+    this.physics.add.collider(groundLayer4, sai);
+    sai.setInteractive();
+    sai.on('pointerdown', function () {
+        isTalking = true;
+        talkingTo = "sai";
+        memoryObject[talkingTo].body.velocity.y =  - 10;
+    });
+
+    drushti = this.physics.add.sprite(2560,0, 'drushti').setScale(scaleRatio, scaleRatio);
+    drushti.setBounce(0.2);
+    drushti.setCollideWorldBounds(true);
+    this.physics.add.collider(groundLayer, drushti);
+    this.physics.add.collider(groundLayer2, drushti);
+    this.physics.add.collider(groundLayer3, drushti);
+    this.physics.add.collider(groundLayer4, drushti);
+    drushti.setInteractive();
+    drushti.on('pointerdown', function () {
+        isTalking = true;
+        talkingTo = "drushti";
+        memoryObject[talkingTo].body.velocity.y =  - 10;
+    });
+
+
+    sateesh = this.physics.add.sprite(3200,0, 'sateesh').setScale(scaleRatio, scaleRatio);
+    sateesh.setBounce(0.2);
+    sateesh.setCollideWorldBounds(true);
+    this.physics.add.collider(groundLayer, sateesh);
+    this.physics.add.collider(groundLayer2, sateesh);
+    this.physics.add.collider(groundLayer3, sateesh);
+    this.physics.add.collider(groundLayer4, sateesh);
+    sateesh.setInteractive();
+    sateesh.on('pointerdown', function () {
+        currentTextIndex = 0;
+        isTalking = true;
+        talkingTo = "sateesh";
+        memoryObject[talkingTo].body.velocity.y =  - 10;
+    });
+
+    aashina = this.physics.add.sprite(3840,0, 'aashina').setScale(scaleRatio, scaleRatio);
+    aashina.setBounce(0.2);
+    aashina.setCollideWorldBounds(true);
+    this.physics.add.collider(groundLayer, aashina);
+    this.physics.add.collider(groundLayer2, aashina);
+    this.physics.add.collider(groundLayer3, aashina);
+    this.physics.add.collider(groundLayer4, aashina);
+    aashina.setInteractive();
+    aashina.on('pointerdown', function () {
+        currentTextIndex = 0;
+        isTalking = true;
+        talkingTo = "aashina";
+        memoryObject[talkingTo].body.velocity.y =  - 10;
+    });
+
+
+    shreya = this.physics.add.sprite(4480,0, 'shreya').setScale(scaleRatio, scaleRatio);
+    shreya.setBounce(0.2);
+    shreya.setCollideWorldBounds(true);
+    this.physics.add.collider(groundLayer, shreya);
+    this.physics.add.collider(groundLayer2, shreya);
+    this.physics.add.collider(groundLayer3, shreya);
+    this.physics.add.collider(groundLayer4, shreya);
+    shreya.setInteractive();
+    shreya.on('pointerdown', function () {
+        currentTextIndex = 0;
+        isTalking = true;
+        talkingTo = "shreya";
+        memoryObject[talkingTo].body.velocity.y =  - 10;
+    });
+
+
+    sudha = this.physics.add.sprite(5120,0, 'sudha').setScale(scaleRatio, scaleRatio);
+    sudha.setBounce(0.2);
+    sudha.setCollideWorldBounds(true);
+    this.physics.add.collider(groundLayer, sudha);
+    this.physics.add.collider(groundLayer2, sudha);
+    this.physics.add.collider(groundLayer3, sudha);
+    this.physics.add.collider(groundLayer4, sudha);
+    sudha.setInteractive();
+    sudha.on('pointerdown', function () {
+        isTalking = true;
+        talkingTo = "sudha";
+        memoryObject[talkingTo].body.velocity.y =  - 10;
+    });
+
+
+    memory = this.physics.add.sprite(this.cameras.main.width / 2, 1280-1100, 'photome').setScale(1.5);
+    this.physics.add.collider(groundLayer, memory);
+    this.physics.add.collider(groundLayer2, memory);
+    this.physics.add.collider(groundLayer3, memory);
+    this.physics.add.collider(groundLayer4, memory);
+    memory.setScrollFactor(0);
+
+    memoryP = this.physics.add.sprite(this.cameras.main.width / 2, 1280-1100, 'photoprabhata').setScale(1.5);
+    this.physics.add.collider(groundLayer, memoryP);
+    this.physics.add.collider(groundLayer2, memoryP);
+    this.physics.add.collider(groundLayer3, memoryP);
+    this.physics.add.collider(groundLayer4, memoryP);
+    memoryP.setScrollFactor(0);
+
+    memorySai = this.physics.add.sprite(this.cameras.main.width / 2, 1280-1100, 'photosai').setScale(1.5);
+    this.physics.add.collider(groundLayer, memorySai);
+    this.physics.add.collider(groundLayer2, memorySai);
+    this.physics.add.collider(groundLayer3, memorySai);
+    this.physics.add.collider(groundLayer4, memorySai);
+    memorySai.setScrollFactor(0);
+
+    memoryDrushti = this.physics.add.sprite(this.cameras.main.width / 2, 1280-1100, 'photodrushti').setScale(1.5);
+    this.physics.add.collider(groundLayer, memoryDrushti);
+    this.physics.add.collider(groundLayer2, memoryDrushti);
+    this.physics.add.collider(groundLayer3, memoryDrushti);
+    this.physics.add.collider(groundLayer4, memoryDrushti);
+    memoryDrushti.setScrollFactor(0);
+
+    memorySateesh = this.physics.add.sprite(this.cameras.main.width / 2, 1280-1100, 'photosateesh').setScale(1.5);
+    this.physics.add.collider(groundLayer, memorySateesh);
+    this.physics.add.collider(groundLayer2, memorySateesh);
+    this.physics.add.collider(groundLayer3, memorySateesh);
+    this.physics.add.collider(groundLayer4, memorySateesh);
+    memorySateesh.setScrollFactor(0);
+
+    memoryAashina = this.physics.add.sprite(this.cameras.main.width / 2, 1280-1100, 'photoaashina').setScale(1.5);
+    this.physics.add.collider(groundLayer, memoryAashina);
+    this.physics.add.collider(groundLayer2, memoryAashina);
+    this.physics.add.collider(groundLayer3, memoryAashina);
+    this.physics.add.collider(groundLayer4, memoryAashina);
+    memoryAashina.setScrollFactor(0);
+
+    memoryShreya = this.physics.add.sprite(this.cameras.main.width / 2, 1280-1100, 'photoshreya').setScale(1.5);
+    this.physics.add.collider(groundLayer, memoryShreya);
+    this.physics.add.collider(groundLayer2, memoryShreya);
+    this.physics.add.collider(groundLayer3, memoryShreya);
+    this.physics.add.collider(groundLayer4, memoryShreya);
+    memoryShreya.setScrollFactor(0);
+
+    memorySudha = this.physics.add.sprite(this.cameras.main.width / 2, 1280-1100, 'photoasudha').setScale(1.5);
+    this.physics.add.collider(groundLayer, memorySudha);
+    this.physics.add.collider(groundLayer2, memorySudha);
+    this.physics.add.collider(groundLayer3, memorySudha);
+    this.physics.add.collider(groundLayer4, memorySudha);
+    memorySudha.setScrollFactor(0);
+
+    memoryObject = {
+        "me" : memory,
+        "prabhata" : memoryP,
+        "sai" : memorySai,
+        "drushti" : memoryDrushti,
+        "sateesh" : memorySateesh,
+        "aashina" : memoryAashina,
+        "shreya" : memoryShreya,
+        "sudha" : memorySudha
+    }
+    // memory.setCollideWorldBounds(true);
+    // memory = this.add.image(this.cameras.main.width / 2, 1280-1000, 'photome');
+    // memory.body.velocity.y =  - 10;
+    hideMemory();
+    hideTextBox();
+
     this.input.on('pointerup', function (pointer) {
-        console.log("helllo");
         sprite.anims.pause();
         sprite.body.setVelocityX(0)
         isMovingForward = false;
@@ -124,6 +369,7 @@ function create() {
 
     sprite.anims.play('walk');
     sprite.anims.pause();
+    document.getElementsByTagName('canvas')[0].style.top = ((window.screen.availHeight*window.devicePixelRatio)- 1280)/2+"px";
 
 }
 
@@ -134,23 +380,69 @@ function updateFrameView() {
 
 function update() {
     if (isMovingForward) {
-        // sprite.anims.restart();
-        // console.log("walking")
         sprite.anims.resume();
         sprite.body.setVelocityX(200)
-        // forward.setPosition(this.cameras.main.width / 2 - (assetWidth/2), this.cameras.main.height / 2); 
     }
-    if (isTextBoxVisible) {
-        // sprite.anims.restart();
-        // console.log("walking")
-        frame.visible = true;
-        forward.visible = false;
-        text.visible = true;
-        // forward.setPosition(this.cameras.main.width / 2 - (assetWidth/2), this.cameras.main.height / 2); 
-    }else{
-        frame.visible = false;
-        forward.visible = true;
-        text.visible = false;
-        text.setText(textToSet);
+    if (isTalking) {
+        var speechToShow = speechObject[talkingTo];
+        var memoryToShow = memoryObject[talkingTo]
+        if(currentTextIndex === 0){
+            showTextBox(speechToShow)
+        }
+        if(!textTimer){
+            textTimer = this.time.addEvent({
+                delay: 100,                // ms
+                callback: showTextBox,
+                //args: [],
+                args: [ speechToShow],
+                repeat: speechToShow.length
+            });
+        }
+        
+        // showTextBox();
+        memoryToShow.body.velocity.y =  memoryToShow.body.velocity.y - 8.8;
+        showMemory(memoryToShow);
+
     }
+    
+}
+
+function showTextBox(string){
+    text.visible = true;
+    // text.setText(textToSet);
+    
+    var settingText = string.slice(0, currentTextIndex++);
+    text.setText(settingText);
+
+    frame.visible = true;
+    forward.visible = false;
+}
+
+function hideTextBox(){
+    if(textTimer){
+        textTimer.remove();
+        textTimer.destroy();
+        textTimer = null;
+    }
+    
+    currentTextIndex = 0;
+    text.visible = false;
+    frame.visible = false;
+    forward.visible = true;
+}
+
+function showMemory(memoryPassed){
+    memoryPassed.visible = true;
+}
+
+function hideMemory(){
+    var allMemories = Object.keys(memoryObject);
+    for(var i=0; i< allMemories.length; i++){
+        memoryObject[allMemories[i]].visible = false;
+        memoryObject[allMemories[i]].visible = false;
+        memoryObject[allMemories[i]].y = 1280-1100;
+        memoryObject[allMemories[i]].body.velocity.y  = 0;
+    }
+
+
 }
