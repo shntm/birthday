@@ -80,6 +80,10 @@ function preload() {
 function create() {
     //  Frame debug view
 
+    if (!window.mobilecheck()) {
+        document.getElementById("block").style.display = "block";
+        document.getElementsByTagName("canvas")[0].style.visibility = "hidden";
+    }
     // frameView = this.add.graphics({ fillStyle: { color: 0xff00ff }, x: 32, y: 32 });
     // document.getElementsByTagName('canvas')[0].style.transform = "translateY(" + (1280-window.screen.availHeight)/2*window.devicePixelRatio + "px)"
     sky = this.add.image(1280,600, 'layer_1').setScale(1);
