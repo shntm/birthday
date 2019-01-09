@@ -21,12 +21,12 @@ var config = {
 var mySpeech = "Shantam: Keep going on to see some familiar faces and some memories with them! Tap here to continue."
 var speechObject = {
     "me" : mySpeech,
-    "prabhata" : "test2",
+    "prabhata" : "Prabhatha: Hey Manasvi! Thank you for being there for me. I admire how unapologetically yourself you are and treat everyone with love, respect and affection. I'm glad you are in my life. Love you! ❤❤",
     "sai" : "test3",
     "drushti" : "test4",
     "sateesh" : "test5",
     "aashina" : "test6",
-    "shreya" : "test7",
+    "shreya" : "Shreya: Happy Birthday Manuuuu! Here’s wishing you all the happiness in the world, and more. I hope that you do what you love, and achieve all your dreams. You deserve it! I love you & am thankful for you! Cheers!",
     "sudha" : "test8",
     "me2" : "Shantam: Happy birthday love!"
 }
@@ -45,7 +45,10 @@ var isMovingForward = false;
 var scaleRatio = window.devicePixelRatio * 2;
 var isTalking = false;
 var talkingTo = "";
-
+var isCharLimitExceeded = false;
+var CHAR_LIMIT = 100;
+var start = 0;
+var currentSpeechSegment = ""
 var textToSet = "";
 var currentTextIndex = 0;
 var textTimer;
@@ -154,9 +157,7 @@ function create() {
     frame.setScrollFactor(0);
     frame.setInteractive();
     frame.on('pointerdown', function () {
-        isTalking = false;
-        hideTextBox();
-        hideMemory();
+        nextTextBox();
     });
     text = this.add.text(20, 1280-180, "nauisdkfnkasd", { font: "11px Arial", fill: "#19de65", wordWrap: true, wordWrapWidth: 450 }).setScale(window.devicePixelRatio);
     text.setWordWrapWidth(200);
@@ -404,7 +405,7 @@ function update() {
         sprite.body.setVelocityX(200)
     }
     if (isTalking) {
-        var speechToShow = speechObject[talkingTo];
+        var speechToShow = speechObject[talkingTo].slice(start, start+100);
         var memoryToShow = memoryObject[talkingTo];
         if(currentTextIndex === 0){
             showTextBox(speechToShow)
@@ -431,7 +432,6 @@ function update() {
 function showTextBox(string){
     text.visible = true;
     // text.setText(textToSet);
-    
     var settingText = string.slice(0, currentTextIndex++);
     text.setText(settingText);
 
@@ -439,14 +439,32 @@ function showTextBox(string){
     forward.visible = false;
 }
 
+function nextTextBox(){
+    if(currentTextIndex < speechObject[talkingTo].length && start < (speechObject[talkingTo].length - CHAR_LIMIT)){
+        start = start + CHAR_LIMIT;
+        if(textTimer){
+            textTimer.remove();
+            textTimer.destroy();
+            textTimer = null;
+        }
+        currentTextIndex = 0;
+    }else{
+        hideTextBox();
+        hideMemory();
+    }
+    
+}
+
 function hideTextBox(){
+    isTalking = false;
     if(textTimer){
         textTimer.remove();
         textTimer.destroy();
         textTimer = null;
     }
-    
+    start = 0;
     currentTextIndex = 0;
+    isCharLimitExceeded = false;
     text.visible = false;
     frame.visible = false;
     forward.visible = true;
