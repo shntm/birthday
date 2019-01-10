@@ -22,13 +22,13 @@ var mySpeech = "Shantam: Keep going on to see some familiar faces and some memor
 var speechObject = {
     "me" : mySpeech,
     "prabhata" : "Prabhatha: Hey Manasvi! Thank you for being there for me. I admire how unapologetically yourself you are and treat everyone with love, respect and affection. I'm glad you are in my life. Love you! ❤❤",
-    "sai" : "test3",
-    "drushti" : "test4",
-    "sateesh" : "test5",
-    "aashina" : "test6",
+    "sai" : "Sai: Happy birthday Manasvi!",
+    "drushti" : "Drushti: Happy birthday Manasvi!",
+    "sateesh" : "Sateesh: Happy birthday Manasvi!",
+    "aashina" : "Aashina: Happy birthday Manasvi!",
     "shreya" : "Shreya: Happy Birthday Manuuuu! Here’s wishing you all the happiness in the world, and more. I hope that you do what you love, and achieve all your dreams. You deserve it! I love you & am thankful for you! Cheers!",
-    "sudha" : "test8",
-    "me2" : "Shantam: Happy birthday love!"
+    "sudha" : "Sudha: Happy birthday Manu!",
+    "me2" : "Shantam: Happy birthday love! Hope to be with you for many more!"
 }
 
 var memoryObject = {};
@@ -60,13 +60,13 @@ function preload() {
     this.load.image('layer_2', 'assets/layer_2.png');
     this.load.image('frame', 'assets/frame.png');
     this.load.image('photome', 'assets/me.png');
-    this.load.image('photoprabhata', 'assets/me.png');
+    this.load.image('photoprabhata', 'assets/photoprabhatha.png');
     this.load.image('photosai', 'assets/me.png');
-    this.load.image('photodrushti', 'assets/me.png');
-    this.load.image('photosateesh', 'assets/me.png');
+    this.load.image('photodrushti', 'assets/photodrushti.png');
+    this.load.image('photosateesh', 'assets/photosateesh.png');
     this.load.image('photoaashina', 'assets/me.png');
-    this.load.image('photoshreya', 'assets/me.png');
-    this.load.image('photoasudha', 'assets/me.png');
+    this.load.image('photoshreya', 'assets/photoshreya.png');
+    this.load.image('photoasudha', 'assets/photosudha.png');
     this.load.spritesheet('birthday', 'assets/birthday.png',{ frameWidth: 500, frameHeight: 527 });
     this.load.spritesheet('me', 'assets/prince.png',{ frameWidth: 32, frameHeight: 32 });
     this.load.spritesheet('char', 'assets/bae.png', { frameWidth: assetWidth, frameHeight: assetHeight });
