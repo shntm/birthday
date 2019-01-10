@@ -28,7 +28,7 @@ var speechObject = {
     "aashina" : "Aashina: Happy birthday Manasvi!",
     "shreya" : "Shreya: Happy Birthday Manuuuu! Here’s wishing you all the happiness in the world, and more. I hope that you do what you love, and achieve all your dreams. You deserve it! I love you & am thankful for you! Cheers!",
     "sudha" : "Sudha: Happy birthday Manu!",
-    "me2" : "Shantam: Happy birthday love! Hope to be with you for many more!"
+    "me2" : "Shantam: Happy birthday love! Hope to be by your side for many more!"
 }
 
 var memoryObject = {};
