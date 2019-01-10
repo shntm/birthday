@@ -18,7 +18,7 @@ var config = {
     }
 };
 
-var mySpeech = "Shantam:test Keep going on to see some familiar faces and some memories with them! Tap here to continue."
+var mySpeech = "Shantam:Keep going on to see some familiar faces and some memories with them! Tap here to continue."
 var speechObject = {
     "me" : mySpeech,
     "prabhata" : "Prabhatha: Hey Manasvi! Thank you for being there for me. I admire how unapologetically yourself you are and treat everyone with love, respect and affection. I'm glad you are in my life. Love you! ❤❤",
