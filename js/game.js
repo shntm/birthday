@@ -61,7 +61,7 @@ function preload() {
     this.load.image('frame', 'assets/frame.png');
     this.load.image('photome', 'assets/me.png');
     this.load.image('photoprabhata', 'assets/photoprabhatha.png');
-    this.load.image('photosai', 'assets/me.png');
+    this.load.image('photosai', 'assets/photosai.png');
     this.load.image('photodrushti', 'assets/photodrushti.png');
     this.load.image('photosateesh', 'assets/photosateesh.png');
     this.load.image('photoaashina', 'assets/me.png');
