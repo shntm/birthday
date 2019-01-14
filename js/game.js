@@ -27,7 +27,7 @@ var speechObject = {
     "sateesh" : "Sateesh: Hey babes.., as always..I鈥檓 sending lots of loves and hugs here, for your birthday. You鈥檝e made me stronger and tougher every day, through your thappad鈥檚!!! I cherish everything we shared... whiskeys, miseries and parties..! I love you the way you are ! Stay the same ! Live long and prosper 馃枛馃徎 Love you 馃 much !!! Happy birthday once again !!",
     "aashina" : "Aashina: Happy birthday Manasvi!",
     "shreya" : "Shreya: Happy Birthday Manuuuu! Here鈥檚 wishing you all the happiness in the world, and more. I hope that you do what you love, and achieve all your dreams. You deserve it! I love you & am thankful for you! Cheers!",
-    "sudha" : "Sudha: My friend, my sister, my partner in crime. Words cannot express the love I have for you in my heart.You've always made me believe in friendship, love, and especially, people. Wish you the happiest birthday, babe. I hope all the love you've sent out into the world comes back to you. You deserve it, and much more. 😊 Here's to all the beautiful memories we've made, and the ones we're yet to make. ❤",
+    "sudha" : "Sudha: My friend, my sister, my partner in crime. Words cannot express the love I have for you in my heart.You've always made me believe in friendship, love, and especially, people. Wish you the happiest birthday, babe. I hope all the love you've sent out into the world comes back to you. You deserve it, and much more. :) Here's to all the beautiful memories we've made, and the ones we're yet to make. <3",
     "me2" : "Shantam: Happy birthday love! Hope to be by your side for many more!"
 }
 
